@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en" translate="no">
+<head>
+<meta charset="utf-8">
+<meta name="google" content="notranslate">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>V MUSIC</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Nunito:wght@700&family=Sora:wght@400;600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<meta name="theme-color" content="#000000">
+<meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="V MUSIC">
+<meta name="description" content="V MUSIC — Feel the Music. See the Sound.">
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><filter id="vmGlassText" x="-8%" y="-12%" width="116%" height="124%" color-interpolation-filters="sRGB"><feGaussianBlur in="SourceAlpha" stdDeviation="2.4" result="b"/><feSpecularLighting in="b" surfaceScale="7" specularConstant="1.25" specularExponent="26" lighting-color="#fff" result="s1"><feDistantLight azimuth="225" elevation="48"/></feSpecularLighting><feComposite in="s1" in2="SourceAlpha" operator="in" result="h1"/><feSpecularLighting in="b" surfaceScale="5" specularConstant=".7" specularExponent="14" lighting-color="#d6e8ff" result="s2"><feDistantLight azimuth="45" elevation="38"/></feSpecularLighting><feComposite in="s2" in2="SourceAlpha" operator="in" result="h2"/><feMerge><feMergeNode in="SourceGraphic"/><feMergeNode in="h1"/><feMergeNode in="h2"/></feMerge></filter></defs></svg>
+<div class="bg" id="bg" aria-hidden="true"><i></i><i></i><i></i></div>
+<canvas id="fx" aria-hidden="true"></canvas>
+<div class="app">
+<nav class="side g" aria-label="Main">
+<div class="tabs"><div class="logo"><b>V MUSIC</b></div>
+<button class="nv on" data-v="lib" aria-current="page">Library</button>
+<button class="nv" data-v="viz">Visualizer</button>
+<button class="nv" data-v="lyr">Lyrics</button>
+<button class="nv" data-v="show">Full animation</button>
+<button class="nv" data-v="set">Settings</button>
+<button class="nv" data-v="acc" id="accb">Sign up</button></div>
+<div class="plw"><div class="pls" id="pls"></div>
+<form id="npl"><input id="npn" placeholder="New playlist" maxlength="30" aria-label="New playlist name"><button class="b">Add</button></form></div>
+</nav>
+<main class="main g" id="main">
+<section id="lib">
+<div class="head"><div><h1 id="ttl">Your music</h1><p id="cnt">0 tracks</p></div><button class="b p addb">Add music</button></div>
+<div id="empty" class="hero"><h1>Feel the Music. See the Sound.</h1><p>Drop audio files anywhere on this page, or pick them from your device. They play straight from your files and never leave your browser.</p><div><button class="b p addb">Add music</button><button class="b demob">Play synth demo</button></div></div>
+<p id="none" class="none" hidden>Nothing here yet. Use the ⋯ menu on a track to add it to a playlist, or tap its heart to favorite it.</p>
+<ul id="list" aria-label="Tracks"></ul>
+</section>
+<section id="viz" hidden>
+<div class="stage" id="stage"><canvas id="cv" aria-label="Audio visualizer"></canvas>
+<div class="vov"><img id="vi" alt="" hidden><span id="vt">Play a track to see the sound.</span></div>
+<div class="vly" aria-hidden="true"><p class="cl" id="vcl"></p><p class="nl" id="vnl"></p></div>
+<div class="modes" role="group" aria-label="Visualizer mode"><button class="b on" data-m="bars">Neon bars</button><button class="b" data-m="ring">Circular</button><button class="b" data-m="wave">Waves</button><button class="b" id="vload">Load lyrics</button><button class="ib gl" id="pipb" aria-label="Mini player"></button><button class="ib gl" id="fs" aria-label="Full screen"></button></div></div>
+</section>
+<section id="lyr" hidden>
+<div class="head"><div><h1>Lyrics</h1><p id="lsub">Play a track, then load its .lrc file.</p></div><div class="lb"><button class="b" id="lload">Load lyrics</button><button class="ib gl" id="lfs" aria-label="Full screen lyrics"></button></div></div>
+<div class="lrow"><aside class="lc"><img id="lcov" alt=""><b id="lti"></b><span id="lar"></span></aside><div class="lyr" id="lyrbox"><div id="lines"></div></div></div>
+</section>
+<section id='set' hidden>
+<div class='head'><div><h1>Settings</h1></div></div>
+<div class='pane'>
+<div class='opt'><div>Language</div><select id='lg' aria-label='Language'><option value='en'>English</option><option value='uz'>O‘zbekcha</option><option value='ru'>Русский</option></select></div>
+<div class='opt'><div>Album color glow<small>A faint tint behind the interface that follows the current cover.</small></div><input type='checkbox' class='sw' id='sglow' aria-label='Album color glow'></div>
+<div class='opt'><div>Floating particles</div><input type='checkbox' class='sw' id='spart' aria-label='Floating particles'></div>
+<div class='opt'><div>Visualizer style</div><select id='smode' aria-label='Visualizer style'><option value='bars'>Neon bars</option><option value='ring'>Circular</option><option value='wave'>Waves</option></select></div>
+<div class='opt'><div>Service status<small id='sstat'>…</small></div></div>
+<div class='opt'><div>Auto-find lyrics and cover (AI)<small>Looks up the song by its name and tags, then fetches synced lyrics and the original cover. Needs the Vercel API.</small></div><input type='checkbox' class='sw' id='sauto' aria-label='Auto-find lyrics and cover (AI)'></div>
+<div class='opt'><div>Free AI listening in the browser<small>Writes lyrics from the audio when none are found. Downloads an AI model (about 80 MB) once.</small></div><input type='checkbox' class='sw' id='sweb' aria-label='Free AI listening in the browser'></div>
+<div class='opt'><div>Mini player opens when I leave<small>Shows a small Dynamic Island player at the top of your screen when you leave the site. Hover it to expand. Works in Chrome and Edge.</small></div><input type='checkbox' class='sw' id='sapip' aria-label='Mini player opens when I leave'></div>
+<div class='opt' id='ins' hidden><div>Install app<small id='sinh'></small></div><button class='b' id='sins' hidden>Install</button></div>
+<div class='opt'><div>Clear saved data<small>Removes favorites, playlists, lyrics, added songs and your profile from this browser.</small></div><button class='b' id='sclr'>Clear saved data</button></div>
+</div>
+</section>
+<section id='acc' hidden>
+<div class='head'><div><h1 id='atl'>Sign up</h1><p id='asub'></p></div></div>
+<div class='pane'>
+<label class='fld'><span>Language</span><select id='lg2' aria-label='Language'><option value='en'>English</option><option value='uz'>O‘zbekcha</option><option value='ru'>Русский</option></select></label>
+<form id='suf'>
+<label class='fld'><span>Name</span><input name='n' type='text' required maxlength='40' autocomplete='name'></label>
+<label class='fld'><span>Email</span><input name='m' type='email' required autocomplete='email'></label>
+<label class='fld'><span>Password</span><input name='p' type='password' required minlength='8' autocomplete='new-password'></label>
+<button class='b p'>Create account</button>
+<button type='button' class='lnk' id='tolf'>I already have an account</button>
+</form>
+<form id='lif' hidden>
+<label class='fld'><span>Email</span><input name='m' type='email' required autocomplete='email'></label>
+<label class='fld'><span>Password</span><input name='p' type='password' required autocomplete='current-password'></label>
+<button class='b p'>Log in</button>
+<button type='button' class='lnk' id='tosf'>Create a new account</button>
+</form>
+<div id='accIn' hidden><p id='ai'></p><button class='b' id='lo'>Log out</button></div>
+<p class='note'>Your profile is saved only in this browser. It isn’t a cloud account yet, and your password is stored as a salted hash.</p>
+</div>
+</section>
+</main>
+<footer class="player g" id="plr" aria-label="Player">
+<div class="pinfo"><img id="pi" alt="" hidden><div class="pt"><b id="pt">Nothing playing</b><span id="pa">Add music to begin</span></div><button class="ib hb" id="hf" aria-label="Favorite"></button></div>
+<div class="pctl"><div class="btns"><button class="ib" id="bs" aria-label="Shuffle" aria-pressed="false"></button><button class="ib" id="bv" aria-label="Previous"></button><button class="play" id="bp" aria-label="Play"></button><button class="ib" id="bn" aria-label="Next"></button><button class="ib br" id="br" aria-label="Repeat all"></button></div>
+<div class="seek"><span id="tc">0:00</span><input id="sk" type="range" min="0" max="1000" value="0" aria-label="Seek"><span id="td">0:00</span></div></div>
+<div class="ex"><button class="ib" id="pipb2" aria-label="Mini player"></button><button class="ib" id="bm" aria-label="Mute"></button><input id="vo" type="range" min="0" max="1" step=".01" value=".8" aria-label="Volume"><select class="sel" id="sp" aria-label="Playback speed"><option value=".75">0.75×</option><option value="1" selected>1×</option><option value="1.25">1.25×</option><option value="1.5">1.5×</option></select></div>
+</footer>
+</div>
+<div id="show" hidden><canvas id="sc"></canvas><canvas id="sc2"></canvas><div id="wd"><div class="wclk"><span id="wdate" class="gtx"></span><b id="wtime" role="img"></b></div><div class="wtit" id="wtit"></div></div>
+<div class="sgl lg" id="sgl"><div class="scv"><img id="shc" alt=""></div><div class="smeta"><b id="sht"></b><span id="sha"></span></div><div class="sly" id="shl"></div></div>
+<div class="sctl lg"><button class="ib" id="shv" aria-label="Previous"></button><button class="ib" id="shp" aria-label="Play"></button><button class="ib" id="shn" aria-label="Next"></button><button class="ib" id="shm" aria-label="Switch animation"></button><span id="shtc">0:00</span><input type="range" id="shs" min="0" max="1000" value="0" aria-label="Seek"><span id="shtd">0:00</span><button class="ib" id="shx" aria-label="Close">✕</button></div></div>
+<div id="gate" hidden><div class="gbox g pane"><div class="logo"><b>V MUSIC</b></div><h1>Welcome to V MUSIC</h1><p>Create a free profile, or skip and just listen.</p>
+<select id="lg3" aria-label="Language"><option value="en">English</option><option value="uz">O‘zbekcha</option><option value="ru">Русский</option></select>
+<form id="gf"><label class="fld"><span>Name</span><input name="n" type="text" required maxlength="40" autocomplete="name"></label><label class="fld"><span>Email</span><input name="m" type="email" required autocomplete="email"></label><label class="fld"><span>Password</span><input name="p" type="password" required minlength="8" autocomplete="new-password"></label><button class="b p">Create account</button></form>
+<button class="lnk" id="gskip">Continue as guest</button></div></div>
+<div class="toast g" id="toast" role="status" aria-live="polite"></div>
+<input type="file" id="fi" accept="audio/*,.lrc,.txt" multiple hidden><input type="file" id="fl" accept=".lrc,.txt,text/plain" hidden><input type="file" id="fc" accept="image/*" hidden>
+<script src="js/i18n-extra.js"></script>
+<script src="js/i18n-ru.js"></script>
+<script src="js/app.js"></script>
+<script src="js/fullshow.js"></script>
+<script src="js/pip.js"></script>
+<script src="js/welcome.js"></script>
+<script src="js/lookup.js"></script>
+<script src="js/identify.js"></script>
+<script src="js/library.js"></script>
+<script src="js/persist.js"></script>
+<script src="js/select.js"></script>
+<script src="js/pwa.js"></script>
+</body>
+</html>
